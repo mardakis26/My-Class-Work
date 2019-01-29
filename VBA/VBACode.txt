@@ -1,0 +1,49 @@
+Attribute VB_Name = "Module1"
+Sub GetTickerSymbols()
+
+'Copy tickers onto column I
+Columns("A:A").Select
+Selection.Copy
+Columns("I:I").Select
+ActiveSheet.Paste
+'Remove duplicates from tickers, so each unique value is displayed
+ActiveSheet.Range("I:I").RemoveDuplicates Columns:=1, Header:=xlNo
+
+End Sub
+
+Sub TotalTickerVolume()
+
+Dim voltotal As Double
+Dim vol As Double
+Dim k As Integer
+
+k = 2
+voltotal = 0
+
+Dim lastrow As Double
+lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+
+For i = 2 To lastrow
+
+vol = Cells(i, 7).Value
+voltotal = voltotal + vol
+
+
+ If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+        Cells(k, 10).Value = voltotal
+        voltotal = 0
+        k = k + 1
+
+    End If
+
+Next i
+
+
+End Sub
+
+Sub ColumnNames()
+
+Range("I1") = "Ticker Symbol"
+Range("J1") = "Total Volume"
+
+End Sub
